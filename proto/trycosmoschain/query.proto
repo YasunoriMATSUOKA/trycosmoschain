@@ -4,12 +4,36 @@ package YasunoriMATSUOKA.trycosmoschain.trycosmoschain;
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 // this line is used by starport scaffolding # 1
+import "trycosmoschain/sampleType.proto";
 
 option go_package = "github.com/YasunoriMATSUOKA/trycosmoschain/x/trycosmoschain/types";
 
 // Query defines the gRPC querier service.
 service Query {
     // this line is used by starport scaffolding # 2
+	rpc SampleType(QueryGetSampleTypeRequest) returns (QueryGetSampleTypeResponse) {
+		option (google.api.http).get = "/YasunoriMATSUOKA/trycosmoschain/trycosmoschain/sampleType/{id}";
+	}
+	rpc SampleTypeAll(QueryAllSampleTypeRequest) returns (QueryAllSampleTypeResponse) {
+		option (google.api.http).get = "/YasunoriMATSUOKA/trycosmoschain/trycosmoschain/sampleType";
+	}
+
 }
 
 // this line is used by starport scaffolding # 3
+message QueryGetSampleTypeRequest {
+	uint64 id = 1;
+}
+
+message QueryGetSampleTypeResponse {
+	SampleType SampleType = 1;
+}
+
+message QueryAllSampleTypeRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllSampleTypeResponse {
+	repeated SampleType SampleType = 1;
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
