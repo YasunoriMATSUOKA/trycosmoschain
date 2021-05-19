@@ -1,0 +1,12 @@
+syntax = "proto3";
+package YasunoriMATSUOKA.trycosmoschain.sampleModule;
+
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "github.com/YasunoriMATSUOKA/trycosmoschain/x/sampleModule/types";
+
+// GenesisState defines the sampleModule module's genesis state.
+message GenesisState {
+    // this line is used by starport scaffolding # genesis/proto/state
+    // this line is used by starport scaffolding # ibc/genesis/proto
+}
