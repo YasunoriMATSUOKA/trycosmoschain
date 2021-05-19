@@ -8,6 +8,36 @@ option go_package = "github.com/YasunoriMATSUOKA/trycosmoschain/x/trycosmoschain
 // Msg defines the Msg service.
 service Msg {
     // this line is used by starport scaffolding # proto/tx/rpc
+  rpc CreateSampleType(MsgCreateSampleType) returns (MsgCreateSampleTypeResponse);
+  rpc UpdateSampleType(MsgUpdateSampleType) returns (MsgUpdateSampleTypeResponse);
+  rpc DeleteSampleType(MsgDeleteSampleType) returns (MsgDeleteSampleTypeResponse);
 }
 
 // this line is used by starport scaffolding # proto/tx/message
+message MsgCreateSampleType {
+  string creator = 1;
+  string sampleField1 = 2;
+  string sampleField2 = 3;
+  string sampleField3 = 4;
+}
+
+message MsgCreateSampleTypeResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdateSampleType {
+  string creator = 1;
+  uint64 id = 2;
+  string sampleField1 = 3;
+  string sampleField2 = 4;
+  string sampleField3 = 5;
+}
+
+message MsgUpdateSampleTypeResponse { }
+
+message MsgDeleteSampleType {
+  string creator = 1;
+  uint64 id = 2;
+}
+
+message MsgDeleteSampleTypeResponse { }

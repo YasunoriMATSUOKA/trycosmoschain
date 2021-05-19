@@ -9,7 +9,11 @@ import (
 	grpc1 "github.com/gogo/protobuf/grpc"
 	proto "github.com/gogo/protobuf/proto"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
+	io "io"
 	math "math"
+	math_bits "math/bits"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -23,19 +27,354 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// this line is used by starport scaffolding # proto/tx/message
+type MsgCreateSampleType struct {
+	Creator      string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	SampleField1 string `protobuf:"bytes,2,opt,name=sampleField1,proto3" json:"sampleField1,omitempty"`
+	SampleField2 string `protobuf:"bytes,3,opt,name=sampleField2,proto3" json:"sampleField2,omitempty"`
+	SampleField3 string `protobuf:"bytes,4,opt,name=sampleField3,proto3" json:"sampleField3,omitempty"`
+}
+
+func (m *MsgCreateSampleType) Reset()         { *m = MsgCreateSampleType{} }
+func (m *MsgCreateSampleType) String() string { return proto.CompactTextString(m) }
+func (*MsgCreateSampleType) ProtoMessage()    {}
+func (*MsgCreateSampleType) Descriptor() ([]byte, []int) {
+	return fileDescriptor_07bd4fa7368c009b, []int{0}
+}
+func (m *MsgCreateSampleType) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgCreateSampleType) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgCreateSampleType.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgCreateSampleType) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgCreateSampleType.Merge(m, src)
+}
+func (m *MsgCreateSampleType) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgCreateSampleType) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgCreateSampleType.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgCreateSampleType proto.InternalMessageInfo
+
+func (m *MsgCreateSampleType) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgCreateSampleType) GetSampleField1() string {
+	if m != nil {
+		return m.SampleField1
+	}
+	return ""
+}
+
+func (m *MsgCreateSampleType) GetSampleField2() string {
+	if m != nil {
+		return m.SampleField2
+	}
+	return ""
+}
+
+func (m *MsgCreateSampleType) GetSampleField3() string {
+	if m != nil {
+		return m.SampleField3
+	}
+	return ""
+}
+
+type MsgCreateSampleTypeResponse struct {
+	Id uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (m *MsgCreateSampleTypeResponse) Reset()         { *m = MsgCreateSampleTypeResponse{} }
+func (m *MsgCreateSampleTypeResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgCreateSampleTypeResponse) ProtoMessage()    {}
+func (*MsgCreateSampleTypeResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_07bd4fa7368c009b, []int{1}
+}
+func (m *MsgCreateSampleTypeResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgCreateSampleTypeResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgCreateSampleTypeResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgCreateSampleTypeResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgCreateSampleTypeResponse.Merge(m, src)
+}
+func (m *MsgCreateSampleTypeResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgCreateSampleTypeResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgCreateSampleTypeResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgCreateSampleTypeResponse proto.InternalMessageInfo
+
+func (m *MsgCreateSampleTypeResponse) GetId() uint64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+type MsgUpdateSampleType struct {
+	Creator      string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Id           uint64 `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	SampleField1 string `protobuf:"bytes,3,opt,name=sampleField1,proto3" json:"sampleField1,omitempty"`
+	SampleField2 string `protobuf:"bytes,4,opt,name=sampleField2,proto3" json:"sampleField2,omitempty"`
+	SampleField3 string `protobuf:"bytes,5,opt,name=sampleField3,proto3" json:"sampleField3,omitempty"`
+}
+
+func (m *MsgUpdateSampleType) Reset()         { *m = MsgUpdateSampleType{} }
+func (m *MsgUpdateSampleType) String() string { return proto.CompactTextString(m) }
+func (*MsgUpdateSampleType) ProtoMessage()    {}
+func (*MsgUpdateSampleType) Descriptor() ([]byte, []int) {
+	return fileDescriptor_07bd4fa7368c009b, []int{2}
+}
+func (m *MsgUpdateSampleType) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgUpdateSampleType) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgUpdateSampleType.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgUpdateSampleType) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpdateSampleType.Merge(m, src)
+}
+func (m *MsgUpdateSampleType) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgUpdateSampleType) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpdateSampleType.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgUpdateSampleType proto.InternalMessageInfo
+
+func (m *MsgUpdateSampleType) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgUpdateSampleType) GetId() uint64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *MsgUpdateSampleType) GetSampleField1() string {
+	if m != nil {
+		return m.SampleField1
+	}
+	return ""
+}
+
+func (m *MsgUpdateSampleType) GetSampleField2() string {
+	if m != nil {
+		return m.SampleField2
+	}
+	return ""
+}
+
+func (m *MsgUpdateSampleType) GetSampleField3() string {
+	if m != nil {
+		return m.SampleField3
+	}
+	return ""
+}
+
+type MsgUpdateSampleTypeResponse struct {
+}
+
+func (m *MsgUpdateSampleTypeResponse) Reset()         { *m = MsgUpdateSampleTypeResponse{} }
+func (m *MsgUpdateSampleTypeResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgUpdateSampleTypeResponse) ProtoMessage()    {}
+func (*MsgUpdateSampleTypeResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_07bd4fa7368c009b, []int{3}
+}
+func (m *MsgUpdateSampleTypeResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgUpdateSampleTypeResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgUpdateSampleTypeResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgUpdateSampleTypeResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpdateSampleTypeResponse.Merge(m, src)
+}
+func (m *MsgUpdateSampleTypeResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgUpdateSampleTypeResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpdateSampleTypeResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgUpdateSampleTypeResponse proto.InternalMessageInfo
+
+type MsgDeleteSampleType struct {
+	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Id      uint64 `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (m *MsgDeleteSampleType) Reset()         { *m = MsgDeleteSampleType{} }
+func (m *MsgDeleteSampleType) String() string { return proto.CompactTextString(m) }
+func (*MsgDeleteSampleType) ProtoMessage()    {}
+func (*MsgDeleteSampleType) Descriptor() ([]byte, []int) {
+	return fileDescriptor_07bd4fa7368c009b, []int{4}
+}
+func (m *MsgDeleteSampleType) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgDeleteSampleType) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgDeleteSampleType.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgDeleteSampleType) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgDeleteSampleType.Merge(m, src)
+}
+func (m *MsgDeleteSampleType) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgDeleteSampleType) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgDeleteSampleType.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgDeleteSampleType proto.InternalMessageInfo
+
+func (m *MsgDeleteSampleType) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgDeleteSampleType) GetId() uint64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+type MsgDeleteSampleTypeResponse struct {
+}
+
+func (m *MsgDeleteSampleTypeResponse) Reset()         { *m = MsgDeleteSampleTypeResponse{} }
+func (m *MsgDeleteSampleTypeResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgDeleteSampleTypeResponse) ProtoMessage()    {}
+func (*MsgDeleteSampleTypeResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_07bd4fa7368c009b, []int{5}
+}
+func (m *MsgDeleteSampleTypeResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgDeleteSampleTypeResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgDeleteSampleTypeResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgDeleteSampleTypeResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgDeleteSampleTypeResponse.Merge(m, src)
+}
+func (m *MsgDeleteSampleTypeResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgDeleteSampleTypeResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgDeleteSampleTypeResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgDeleteSampleTypeResponse proto.InternalMessageInfo
+
+func init() {
+	proto.RegisterType((*MsgCreateSampleType)(nil), "YasunoriMATSUOKA.trycosmoschain.trycosmoschain.MsgCreateSampleType")
+	proto.RegisterType((*MsgCreateSampleTypeResponse)(nil), "YasunoriMATSUOKA.trycosmoschain.trycosmoschain.MsgCreateSampleTypeResponse")
+	proto.RegisterType((*MsgUpdateSampleType)(nil), "YasunoriMATSUOKA.trycosmoschain.trycosmoschain.MsgUpdateSampleType")
+	proto.RegisterType((*MsgUpdateSampleTypeResponse)(nil), "YasunoriMATSUOKA.trycosmoschain.trycosmoschain.MsgUpdateSampleTypeResponse")
+	proto.RegisterType((*MsgDeleteSampleType)(nil), "YasunoriMATSUOKA.trycosmoschain.trycosmoschain.MsgDeleteSampleType")
+	proto.RegisterType((*MsgDeleteSampleTypeResponse)(nil), "YasunoriMATSUOKA.trycosmoschain.trycosmoschain.MsgDeleteSampleTypeResponse")
+}
+
 func init() { proto.RegisterFile("trycosmoschain/tx.proto", fileDescriptor_07bd4fa7368c009b) }
 
 var fileDescriptor_07bd4fa7368c009b = []byte{
-	// 138 bytes of a gzipped FileDescriptorProto
+	// 351 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x2f, 0x29, 0xaa, 0x4c,
 	0xce, 0x2f, 0xce, 0xcd, 0x2f, 0x4e, 0xce, 0x48, 0xcc, 0xcc, 0xd3, 0x2f, 0xa9, 0xd0, 0x2b, 0x28,
 	0xca, 0x2f, 0xc9, 0x17, 0xd2, 0x8b, 0x4c, 0x2c, 0x2e, 0xcd, 0xcb, 0x2f, 0xca, 0xf4, 0x75, 0x0c,
-	0x09, 0x0e, 0xf5, 0xf7, 0x76, 0xd4, 0x43, 0x55, 0x89, 0xc6, 0x35, 0x62, 0xe5, 0x62, 0xf6, 0x2d,
-	0x4e, 0x77, 0x8a, 0x3e, 0xf1, 0x48, 0x8e, 0xf1, 0xc2, 0x23, 0x39, 0xc6, 0x07, 0x8f, 0xe4, 0x18,
-	0x27, 0x3c, 0x96, 0x63, 0xb8, 0xf0, 0x58, 0x8e, 0xe1, 0xc6, 0x63, 0x39, 0x86, 0x28, 0xc7, 0xf4,
-	0xcc, 0x92, 0x8c, 0xd2, 0x24, 0xbd, 0xe4, 0xfc, 0x5c, 0x7d, 0x74, 0xb3, 0xf5, 0xd1, 0x5c, 0x51,
-	0x81, 0x2e, 0x50, 0x52, 0x59, 0x90, 0x5a, 0x9c, 0xc4, 0x06, 0x76, 0x9a, 0x31, 0x20, 0x00, 0x00,
-	0xff, 0xff, 0xcd, 0xa9, 0x33, 0xe0, 0xb5, 0x00, 0x00, 0x00,
+	0x09, 0x0e, 0xf5, 0xf7, 0x76, 0xd4, 0x43, 0x55, 0x89, 0xc6, 0x55, 0x9a, 0xcd, 0xc8, 0x25, 0xec,
+	0x5b, 0x9c, 0xee, 0x5c, 0x94, 0x9a, 0x58, 0x92, 0x1a, 0x9c, 0x98, 0x5b, 0x90, 0x93, 0x1a, 0x52,
+	0x59, 0x90, 0x2a, 0x24, 0xc1, 0xc5, 0x9e, 0x0c, 0x12, 0xcb, 0x2f, 0x92, 0x60, 0x54, 0x60, 0xd4,
+	0xe0, 0x0c, 0x82, 0x71, 0x85, 0x94, 0xb8, 0x78, 0x8a, 0xc1, 0xea, 0xdc, 0x32, 0x53, 0x73, 0x52,
+	0x0c, 0x25, 0x98, 0xc0, 0xd2, 0x28, 0x62, 0x68, 0x6a, 0x8c, 0x24, 0x98, 0x31, 0xd4, 0x18, 0xa1,
+	0xa9, 0x31, 0x96, 0x60, 0xc1, 0x50, 0x63, 0xac, 0xa4, 0xcb, 0x25, 0x8d, 0xc5, 0x71, 0x41, 0xa9,
+	0xc5, 0x05, 0xf9, 0x79, 0xc5, 0xa9, 0x42, 0x7c, 0x5c, 0x4c, 0x99, 0x29, 0x60, 0xf7, 0xb1, 0x04,
+	0x31, 0x65, 0xa6, 0x28, 0xad, 0x86, 0x78, 0x26, 0xb4, 0x20, 0x85, 0x58, 0xcf, 0x40, 0x4c, 0x60,
+	0x82, 0x99, 0x80, 0xe1, 0x39, 0x66, 0x22, 0x3c, 0xc7, 0x42, 0x84, 0xe7, 0x58, 0xb1, 0x78, 0x4e,
+	0x16, 0xec, 0x39, 0x74, 0xc7, 0xc2, 0x3c, 0xa7, 0x64, 0x0f, 0xf6, 0x8b, 0x4b, 0x6a, 0x4e, 0x2a,
+	0x79, 0x7e, 0x81, 0x9a, 0x8f, 0x6e, 0x00, 0xcc, 0x7c, 0xa3, 0x5f, 0xcc, 0x5c, 0xcc, 0xbe, 0xc5,
+	0xe9, 0x42, 0x4b, 0x18, 0xb9, 0x04, 0x30, 0xa2, 0xdf, 0x99, 0xc4, 0x74, 0xa4, 0x87, 0x25, 0x9a,
+	0xa4, 0xbc, 0xa9, 0x60, 0x08, 0x3c, 0xae, 0x41, 0xce, 0xc4, 0x88, 0x58, 0x72, 0x9c, 0x89, 0x6e,
+	0x08, 0x59, 0xce, 0xc4, 0x15, 0x6b, 0x60, 0x67, 0x62, 0xc4, 0x19, 0x39, 0xce, 0x44, 0x37, 0x84,
+	0x2c, 0x67, 0xe2, 0x8a, 0x7c, 0xa7, 0xe8, 0x13, 0x8f, 0xe4, 0x18, 0x2f, 0x3c, 0x92, 0x63, 0x7c,
+	0xf0, 0x48, 0x8e, 0x71, 0xc2, 0x63, 0x39, 0x86, 0x0b, 0x8f, 0xe5, 0x18, 0x6e, 0x3c, 0x96, 0x63,
+	0x88, 0x72, 0x4c, 0xcf, 0x2c, 0xc9, 0x28, 0x4d, 0xd2, 0x4b, 0xce, 0xcf, 0xd5, 0x47, 0xb7, 0x50,
+	0x1f, 0xad, 0xd4, 0xa9, 0x40, 0x17, 0x28, 0xa9, 0x2c, 0x48, 0x2d, 0x4e, 0x62, 0x03, 0x17, 0x45,
+	0xc6, 0x80, 0x00, 0x00, 0x00, 0xff, 0xff, 0x4c, 0x6a, 0xa3, 0xed, 0xa5, 0x04, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -50,6 +389,10 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MsgClient interface {
+	// this line is used by starport scaffolding # proto/tx/rpc
+	CreateSampleType(ctx context.Context, in *MsgCreateSampleType, opts ...grpc.CallOption) (*MsgCreateSampleTypeResponse, error)
+	UpdateSampleType(ctx context.Context, in *MsgUpdateSampleType, opts ...grpc.CallOption) (*MsgUpdateSampleTypeResponse, error)
+	DeleteSampleType(ctx context.Context, in *MsgDeleteSampleType, opts ...grpc.CallOption) (*MsgDeleteSampleTypeResponse, error)
 }
 
 type msgClient struct {
@@ -60,22 +403,1192 @@ func NewMsgClient(cc grpc1.ClientConn) MsgClient {
 	return &msgClient{cc}
 }
 
+func (c *msgClient) CreateSampleType(ctx context.Context, in *MsgCreateSampleType, opts ...grpc.CallOption) (*MsgCreateSampleTypeResponse, error) {
+	out := new(MsgCreateSampleTypeResponse)
+	err := c.cc.Invoke(ctx, "/YasunoriMATSUOKA.trycosmoschain.trycosmoschain.Msg/CreateSampleType", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) UpdateSampleType(ctx context.Context, in *MsgUpdateSampleType, opts ...grpc.CallOption) (*MsgUpdateSampleTypeResponse, error) {
+	out := new(MsgUpdateSampleTypeResponse)
+	err := c.cc.Invoke(ctx, "/YasunoriMATSUOKA.trycosmoschain.trycosmoschain.Msg/UpdateSampleType", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) DeleteSampleType(ctx context.Context, in *MsgDeleteSampleType, opts ...grpc.CallOption) (*MsgDeleteSampleTypeResponse, error) {
+	out := new(MsgDeleteSampleTypeResponse)
+	err := c.cc.Invoke(ctx, "/YasunoriMATSUOKA.trycosmoschain.trycosmoschain.Msg/DeleteSampleType", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
+	// this line is used by starport scaffolding # proto/tx/rpc
+	CreateSampleType(context.Context, *MsgCreateSampleType) (*MsgCreateSampleTypeResponse, error)
+	UpdateSampleType(context.Context, *MsgUpdateSampleType) (*MsgUpdateSampleTypeResponse, error)
+	DeleteSampleType(context.Context, *MsgDeleteSampleType) (*MsgDeleteSampleTypeResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
 type UnimplementedMsgServer struct {
 }
 
+func (*UnimplementedMsgServer) CreateSampleType(ctx context.Context, req *MsgCreateSampleType) (*MsgCreateSampleTypeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateSampleType not implemented")
+}
+func (*UnimplementedMsgServer) UpdateSampleType(ctx context.Context, req *MsgUpdateSampleType) (*MsgUpdateSampleTypeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateSampleType not implemented")
+}
+func (*UnimplementedMsgServer) DeleteSampleType(ctx context.Context, req *MsgDeleteSampleType) (*MsgDeleteSampleTypeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteSampleType not implemented")
+}
+
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
 	s.RegisterService(&_Msg_serviceDesc, srv)
+}
+
+func _Msg_CreateSampleType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgCreateSampleType)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).CreateSampleType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/YasunoriMATSUOKA.trycosmoschain.trycosmoschain.Msg/CreateSampleType",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).CreateSampleType(ctx, req.(*MsgCreateSampleType))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_UpdateSampleType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateSampleType)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).UpdateSampleType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/YasunoriMATSUOKA.trycosmoschain.trycosmoschain.Msg/UpdateSampleType",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).UpdateSampleType(ctx, req.(*MsgUpdateSampleType))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_DeleteSampleType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgDeleteSampleType)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).DeleteSampleType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/YasunoriMATSUOKA.trycosmoschain.trycosmoschain.Msg/DeleteSampleType",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).DeleteSampleType(ctx, req.(*MsgDeleteSampleType))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "YasunoriMATSUOKA.trycosmoschain.trycosmoschain.Msg",
 	HandlerType: (*MsgServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams:     []grpc.StreamDesc{},
-	Metadata:    "trycosmoschain/tx.proto",
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateSampleType",
+			Handler:    _Msg_CreateSampleType_Handler,
+		},
+		{
+			MethodName: "UpdateSampleType",
+			Handler:    _Msg_UpdateSampleType_Handler,
+		},
+		{
+			MethodName: "DeleteSampleType",
+			Handler:    _Msg_DeleteSampleType_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "trycosmoschain/tx.proto",
 }
+
+func (m *MsgCreateSampleType) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgCreateSampleType) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgCreateSampleType) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.SampleField3) > 0 {
+		i -= len(m.SampleField3)
+		copy(dAtA[i:], m.SampleField3)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.SampleField3)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.SampleField2) > 0 {
+		i -= len(m.SampleField2)
+		copy(dAtA[i:], m.SampleField2)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.SampleField2)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.SampleField1) > 0 {
+		i -= len(m.SampleField1)
+		copy(dAtA[i:], m.SampleField1)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.SampleField1)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgCreateSampleTypeResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgCreateSampleTypeResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgCreateSampleTypeResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Id != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.Id))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgUpdateSampleType) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgUpdateSampleType) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgUpdateSampleType) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.SampleField3) > 0 {
+		i -= len(m.SampleField3)
+		copy(dAtA[i:], m.SampleField3)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.SampleField3)))
+		i--
+		dAtA[i] = 0x2a
+	}
+	if len(m.SampleField2) > 0 {
+		i -= len(m.SampleField2)
+		copy(dAtA[i:], m.SampleField2)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.SampleField2)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.SampleField1) > 0 {
+		i -= len(m.SampleField1)
+		copy(dAtA[i:], m.SampleField1)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.SampleField1)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.Id != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.Id))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgUpdateSampleTypeResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgUpdateSampleTypeResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgUpdateSampleTypeResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgDeleteSampleType) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgDeleteSampleType) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgDeleteSampleType) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Id != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.Id))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgDeleteSampleTypeResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgDeleteSampleTypeResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgDeleteSampleTypeResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
+	offset -= sovTx(v)
+	base := offset
+	for v >= 1<<7 {
+		dAtA[offset] = uint8(v&0x7f | 0x80)
+		v >>= 7
+		offset++
+	}
+	dAtA[offset] = uint8(v)
+	return base
+}
+func (m *MsgCreateSampleType) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.SampleField1)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.SampleField2)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.SampleField3)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgCreateSampleTypeResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Id != 0 {
+		n += 1 + sovTx(uint64(m.Id))
+	}
+	return n
+}
+
+func (m *MsgUpdateSampleType) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.Id != 0 {
+		n += 1 + sovTx(uint64(m.Id))
+	}
+	l = len(m.SampleField1)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.SampleField2)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.SampleField3)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgUpdateSampleTypeResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgDeleteSampleType) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.Id != 0 {
+		n += 1 + sovTx(uint64(m.Id))
+	}
+	return n
+}
+
+func (m *MsgDeleteSampleTypeResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func sovTx(x uint64) (n int) {
+	return (math_bits.Len64(x|1) + 6) / 7
+}
+func sozTx(x uint64) (n int) {
+	return sovTx(uint64((x << 1) ^ uint64((int64(x) >> 63))))
+}
+func (m *MsgCreateSampleType) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgCreateSampleType: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgCreateSampleType: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SampleField1", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.SampleField1 = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SampleField2", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.SampleField2 = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SampleField3", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.SampleField3 = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgCreateSampleTypeResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgCreateSampleTypeResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgCreateSampleTypeResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+			}
+			m.Id = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Id |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgUpdateSampleType) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgUpdateSampleType: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgUpdateSampleType: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+			}
+			m.Id = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Id |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SampleField1", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.SampleField1 = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SampleField2", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.SampleField2 = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SampleField3", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.SampleField3 = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgUpdateSampleTypeResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgUpdateSampleTypeResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgUpdateSampleTypeResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgDeleteSampleType) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgDeleteSampleType: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgDeleteSampleType: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+			}
+			m.Id = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Id |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgDeleteSampleTypeResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgDeleteSampleTypeResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgDeleteSampleTypeResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func skipTx(dAtA []byte) (n int, err error) {
+	l := len(dAtA)
+	iNdEx := 0
+	depth := 0
+	for iNdEx < l {
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return 0, ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return 0, io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		wireType := int(wire & 0x7)
+		switch wireType {
+		case 0:
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return 0, ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return 0, io.ErrUnexpectedEOF
+				}
+				iNdEx++
+				if dAtA[iNdEx-1] < 0x80 {
+					break
+				}
+			}
+		case 1:
+			iNdEx += 8
+		case 2:
+			var length int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return 0, ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return 0, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				length |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if length < 0 {
+				return 0, ErrInvalidLengthTx
+			}
+			iNdEx += length
+		case 3:
+			depth++
+		case 4:
+			if depth == 0 {
+				return 0, ErrUnexpectedEndOfGroupTx
+			}
+			depth--
+		case 5:
+			iNdEx += 4
+		default:
+			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
+		}
+		if iNdEx < 0 {
+			return 0, ErrInvalidLengthTx
+		}
+		if depth == 0 {
+			return iNdEx, nil
+		}
+	}
+	return 0, io.ErrUnexpectedEOF
+}
+
+var (
+	ErrInvalidLengthTx        = fmt.Errorf("proto: negative length found during unmarshaling")
+	ErrIntOverflowTx          = fmt.Errorf("proto: integer overflow")
+	ErrUnexpectedEndOfGroupTx = fmt.Errorf("proto: unexpected end of group")
+)

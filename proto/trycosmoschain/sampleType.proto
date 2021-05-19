@@ -1,0 +1,14 @@
+syntax = "proto3";
+package YasunoriMATSUOKA.trycosmoschain.trycosmoschain;
+
+option go_package = "github.com/YasunoriMATSUOKA/trycosmoschain/x/trycosmoschain/types";
+
+import "gogoproto/gogo.proto";
+
+message SampleType {
+  string creator = 1;
+  uint64 id = 2;
+  string sampleField1 = 3; 
+  string sampleField2 = 4; 
+  string sampleField3 = 5; 
+}
